@@ -145,7 +145,8 @@ class NowPlayingApp(App):
     """docstring for NowPlayingApp."""
 
     def build(self):
-        global album_art_changed = False
+        global album_art_changed
+        album_art_changed = False
         npb = NowPlayingBox()
         npb.nowplaying.start_update()
         Clock.schedule_interval(npb.update, 2)

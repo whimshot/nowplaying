@@ -114,7 +114,7 @@ class NowPlaying(BoxLayout):
                             elif code == 'PICT':
                                 with open('now_playing.jpg', 'wb') as f:
                                     f.write(data)
-                                    self.albumart(source='now_playing.jpg')
+                                    self.albumart.source = 'now_playing.jpg'
                                     self.albumart.reload()
                         except UnicodeDecodeError as e:
                             raise

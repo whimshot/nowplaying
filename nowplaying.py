@@ -101,15 +101,17 @@ class NowPlaying(BoxLayout):
                     if 'data' in e['item']:
                         data = base64.b64decode(e['item']['data']['#text'])
                         try:
-                            decoded_data = data.decode('utf-8')
                             if code == 'asal':
+                                decoded_data = data.decode('utf-8')
                                 self.album.text = decoded_data
                             if code == 'asar':
+                                decoded_data = data.decode('utf-8')
                                 self.artist.text = decoded_data
                             if code == 'minm':
+                                decoded_data = data.decode('utf-8')
                                 self.title.text = decoded_data
                             elif code == 'PICT':
-                                print(decoded_data)
+                                print(data)
                         except UnicodeDecodeError as e:
                             raise
 

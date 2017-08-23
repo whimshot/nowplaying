@@ -38,6 +38,7 @@ class NowPlaying(BoxLayout):
         self.album = NowPlayingLabel(text='Album', color=[1, 0, 0, ])
         self.title = NowPlayingLabel(text='Title',  color=[0, 1, 0, ])
         self.artist = NowPlayingLabel(text='Artist', color=[0, 0, 1, ])
+        self.albumart = Image(source='no_image.png')
         self.add_widget(self.title)
         self.add_widget(self.artist)
         self.add_widget(self.album)
@@ -123,9 +124,8 @@ class NowPlayingBox(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.nowplaying = NowPlaying()
-        self.albumart = Image(source='no_image.png')
         self.add_widget(self.nowplaying)
-        self.add_widget(self.albumart)
+        self.add_widget(self.nowplaying.albumart)
 
 
 class NowPlayingApp(App):

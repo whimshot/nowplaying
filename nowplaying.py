@@ -95,24 +95,23 @@ class NowPlaying(BoxLayout):
                 temp_line = ""
                 root = ET.fromstring(line)
                 e = self.etree_to_dict(root)
-                if self.ascii_integers_to_string(e['item']['type']) == 'core':
-                    code = self.ascii_integers_to_string(e['item']['code'])
-                    print(code)
-                    if code in codes_we_care_about:
-                        if 'data' in e['item']:
-                            data = base64.b64decode(e['item']['data']['#text'])
-                            try:
-                                decoded_data = data.decode('utf-8')
-                                if code == 'asal':
-                                    self.album.text = decoded_data
-                                if code == 'asar':
-                                    self.artist.text = decoded_data
-                                if code == 'minm':
-                                    self.title.text = decoded_data
-                                elif code == 'PICT':
-                                    print(decoded_data)
-                            except UnicodeDecodeError as e:
-                                raise
+                code = self.ascii_integers_to_string(e['item']['code'])
+                print(code)
+                if code in codes_we_care_about:
+                    if 'data' in e['item']:
+                        data = base64.b64decode(e['item']['data']['#text'])
+                        try:
+                            decoded_data = data.decode('utf-8')
+                            if code == 'asal':
+                                self.album.text = decoded_data
+                            if code == 'asar':
+                                self.artist.text = decoded_data
+                            if code == 'minm':
+                                self.title.text = decoded_data
+                            elif code == 'PICT':
+                                print(decoded_data)
+                        except UnicodeDecodeError as e:
+                            raise
 
 
 class NowPlayingBox(BoxLayout):

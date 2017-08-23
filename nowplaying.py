@@ -143,6 +143,7 @@ class NowPlayingBox(BoxLayout):
         global album_art_changed
         global no_album_art
         if album_art_changed:
+            self.albumart.source = 'now_playing.jpg'
             self.albumart.reload()
             album_art_changed = False
         elif no_album_art:

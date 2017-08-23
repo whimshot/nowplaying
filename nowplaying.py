@@ -105,10 +105,10 @@ class NowPlaying(BoxLayout):
                             if code == 'asal':
                                 decoded_data = data.decode('utf-8')
                                 self.album.text = decoded_data
-                            if code == 'asar':
+                            elif code == 'asar':
                                 decoded_data = data.decode('utf-8')
                                 self.artist.text = decoded_data
-                            if code == 'minm':
+                            elif code == 'minm':
                                 decoded_data = data.decode('utf-8')
                                 self.title.text = decoded_data
                             elif code == 'PICT':
@@ -116,9 +116,10 @@ class NowPlaying(BoxLayout):
                                     f.write(data)
                                 print(f.closed)
                                 time.sleep(2)
-                                self.albumart.reload()
                         except UnicodeDecodeError as e:
                             raise
+                        finally:
+                            self.albumart.reload()
 
 
 class NowPlayingBox(BoxLayout):

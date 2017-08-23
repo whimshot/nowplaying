@@ -38,7 +38,7 @@ class NowPlaying(BoxLayout):
         self.album = NowPlayingLabel(text='Album', color=[1, 0, 0, ])
         self.title = NowPlayingLabel(text='Title',  color=[0, 1, 0, ])
         self.artist = NowPlayingLabel(text='Artist', color=[0, 0, 1, ])
-        self.albumart = AsyncImage(source='now_playing.jpg',
+        self.albumart = Image(source='now_playing.jpg',
                                    allow_stretch=True)
         self.add_widget(self.title)
         self.add_widget(self.artist)

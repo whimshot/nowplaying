@@ -131,6 +131,9 @@ class NowPlayingBox(BoxLayout):
         self.add_widget(self.nowplaying)
         self.add_widget(self.albumart)
 
+    def update(self, dt):
+        self.albumart.reload()
+
 
 class NowPlayingApp(App):
     """docstring for NowPlayingApp."""
@@ -138,7 +141,7 @@ class NowPlayingApp(App):
     def build(self):
         npb = NowPlayingBox()
         npb.nowplaying.start_update()
-        Clock.schedule_interval(npb.albumart.reload())
+        Clock.schedule_interval(npb.update, 2)
         return npb
 
 

@@ -87,6 +87,7 @@ class NowPlaying(BoxLayout):
         threading.Thread(target=self.update).start()
 
     def update(self):
+        global album_art_changed
         codes_we_care_about = ['asal', 'asar', 'minm', 'PICT']
         temp_line = ""
         with open('/tmp/shairport-sync-metadata') as f:
@@ -134,6 +135,7 @@ class NowPlayingBox(BoxLayout):
         self.add_widget(self.albumart)
 
     def update(self, dt):
+        global album_art_changed
         if album_art_changed:
             self.albumart.reload()
             album_art_changed = False
@@ -143,7 +145,7 @@ class NowPlayingApp(App):
     """docstring for NowPlayingApp."""
 
     def build(self):
-        album_art_changed = False
+        global album_art_changed = False
         npb = NowPlayingBox()
         npb.nowplaying.start_update()
         Clock.schedule_interval(npb.update, 2)

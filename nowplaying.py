@@ -108,6 +108,8 @@ class NowPlaying(BoxLayout):
                                     self.artist.text = decoded_data
                                 if code == 'minm':
                                     self.title.text = decoded_data
+                                elif code == 'PICT':
+                                    print(decoded_data)
                             except UnicodeDecodeError as e:
                                 raise
 

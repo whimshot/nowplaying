@@ -113,7 +113,6 @@ class NowPlaying(BoxLayout):
                                 with open('now_playing.jpg', 'wb') as f:
                                     f.write(data)
                                 print(f.closed)
-                                time.sleep(2)
                         except UnicodeDecodeError as e:
                             raise
                         finally:

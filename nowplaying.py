@@ -23,6 +23,9 @@ from kivy.uix.label import Label
 from kivy.uix.slider import Slider
 
 
+album_art_changed = False
+
+
 class NowPlayingLabel(Label):
     """docstring for NowPlayingLabel."""
     pass
@@ -112,7 +115,7 @@ class NowPlaying(BoxLayout):
                             elif code == 'PICT':
                                 with open('now_playing.jpg', 'wb') as f:
                                     f.write(data)
-                                print(f.closed)
+                                    album_art_changed = True
                         except UnicodeDecodeError as e:
                             raise
                         finally:
@@ -131,7 +134,9 @@ class NowPlayingBox(BoxLayout):
         self.add_widget(self.albumart)
 
     def update(self, dt):
-        self.albumart.reload()
+        if album_art_changed:
+            self.albumart.reload()
+            album_art_changed = False
 
 
 class NowPlayingApp(App):

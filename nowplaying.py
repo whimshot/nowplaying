@@ -24,6 +24,7 @@ from kivy.uix.slider import Slider
 
 
 album_art_changed = False
+no_album_art = True
 
 
 class NowPlayingLabel(Label):
@@ -88,6 +89,7 @@ class NowPlaying(BoxLayout):
 
     def update(self):
         global album_art_changed
+        global no_album_art
         codes_we_care_about = ['asal', 'asar', 'minm', 'PICT']
         temp_line = ""
         with open('/tmp/shairport-sync-metadata') as f:
@@ -117,6 +119,9 @@ class NowPlaying(BoxLayout):
                                 with open('now_playing.jpg', 'wb') as f:
                                     f.write(data)
                                     album_art_changed = True
+                                    no_album_art = False
+                            else:
+                                no_album_art = True
                         except UnicodeDecodeError as e:
                             raise
                         finally:
@@ -129,16 +134,21 @@ class NowPlayingBox(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.nowplaying = NowPlaying()
-        self.albumart = Image(source='now_playing.jpg',
+        self.albumart = Image(source='no_album_art.png',
                               allow_stretch=True)
         self.add_widget(self.nowplaying)
         self.add_widget(self.albumart)
 
     def update(self, dt):
         global album_art_changed
+        global no_album_art
         if album_art_changed:
             self.albumart.reload()
             album_art_changed = False
+        elif no_album_art:
+            self.albumart.source = 'no_album_art.png'
+            self.albumart.reload()
+            no_album_art = False
 
 
 class NowPlayingApp(App):

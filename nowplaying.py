@@ -117,7 +117,7 @@ class NowPlaying(BoxLayout):
                         except UnicodeDecodeError as e:
                             raise
                         finally:
-                            self.albumart.reload()
+                            pass
 
 
 class NowPlayingBox(BoxLayout):

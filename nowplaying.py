@@ -115,6 +115,7 @@ class NowPlaying(BoxLayout):
                                 with open('now_playing.jpg', 'wb') as f:
                                     f.write(data)
                                     self.albumart.source = 'now_playing.jpg'
+                                    time.sleep(5)
                                     self.albumart.reload()
                         except UnicodeDecodeError as e:
                             raise

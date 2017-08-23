@@ -111,7 +111,8 @@ class NowPlaying(BoxLayout):
                                 decoded_data = data.decode('utf-8')
                                 self.title.text = decoded_data
                             elif code == 'PICT':
-                                print(data)
+                                with open('now_playing.jpg', 'w') as f:
+                                    f.write(data)
                         except UnicodeDecodeError as e:
                             raise
 

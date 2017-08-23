@@ -97,7 +97,6 @@ class NowPlaying(BoxLayout):
                 root = ET.fromstring(line)
                 e = self.etree_to_dict(root)
                 code = self.ascii_integers_to_string(e['item']['code'])
-                print(code)
                 if code in codes_we_care_about:
                     if 'data' in e['item']:
                         data = base64.b64decode(e['item']['data']['#text'])
@@ -114,7 +113,7 @@ class NowPlaying(BoxLayout):
                             elif code == 'PICT':
                                 with open('now_playing.jpg', 'wb') as f:
                                     f.write(data)
-                                    f.close()
+                                print(f.closed)
                                 time.sleep(5)
                                 self.albumart.reload()
                         except UnicodeDecodeError as e:

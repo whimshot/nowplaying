@@ -18,7 +18,7 @@ from kivy.core.window import Window
 from kivy.logger import Logger
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from kivy.uix.image import Image
+from kivy.uix.image import Image, AsyncImage
 from kivy.uix.label import Label
 from kivy.uix.slider import Slider
 
@@ -38,7 +38,7 @@ class NowPlaying(BoxLayout):
         self.album = NowPlayingLabel(text='Album', color=[1, 0, 0, ])
         self.title = NowPlayingLabel(text='Title',  color=[0, 1, 0, ])
         self.artist = NowPlayingLabel(text='Artist', color=[0, 0, 1, ])
-        self.albumart = Image(source='now_playing.jpg')
+        self.albumart = AsyncImage(source='now_playing.jpg')
         self.add_widget(self.title)
         self.add_widget(self.artist)
         self.add_widget(self.album)

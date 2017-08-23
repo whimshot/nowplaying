@@ -138,6 +138,7 @@ class NowPlayingApp(App):
     def build(self):
         npb = NowPlayingBox()
         npb.nowplaying.start_update()
+        Clock.schedule_interval(nbp.albumart.reload())
         return npb
 
 

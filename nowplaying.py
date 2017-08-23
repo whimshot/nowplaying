@@ -97,6 +97,7 @@ class NowPlaying(BoxLayout):
                 e = self.etree_to_dict(root)
                 if self.ascii_integers_to_string(e['item']['type']) == 'core':
                     code = self.ascii_integers_to_string(e['item']['code'])
+                    print(code)
                     if code in codes_we_care_about:
                         if 'data' in e['item']:
                             data = base64.b64decode(e['item']['data']['#text'])

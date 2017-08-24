@@ -25,6 +25,26 @@ from kivy.uix.slider import Slider
 
 album_art_changed = False
 no_album_art = True
+logger = Logger.getChild(__name__)
+logger.setLevel(logging.DEBUG)
+# create file handler which logs even debug messages
+logger_fh = logging.handlers.RotatingFileHandler('nowplaying.log',
+                                                 maxBytes=65536,
+                                                 backupCount=7)
+logger_fh.setLevel(logging.DEBUG)
+# create console handler with a higher log level
+logger_ch = logging.StreamHandler()
+logger_ch.setLevel(logging.ERROR)
+# create formatter and add it to the handlers
+logger_formatter = logging.Formatter('%(asctime)s'
+                                     + ' %(levelname)s'
+                                     + ' %(name)s[%(process)d]'
+                                     + ' %(message)s')
+logger_fh.setFormatter(logger_formatter)
+logger_ch.setFormatter(logger_formatter)
+# add the handlers to the logger
+logger.addHandler(logger_fh)
+logger.addHandler(logger_ch)
 
 
 class NowPlayingLabel(Label):
@@ -102,31 +122,32 @@ class NowPlaying(BoxLayout):
                 root = ET.fromstring(line)
                 e = self.etree_to_dict(root)
                 code = self.ascii_integers_to_string(e['item']['code'])
+                if 'data' in e['item']:
+                    data = base64.b64decode(e['item']['data']['#text'])
+                    logger.info('%s: %s', str(code), str(data))
                 if code in codes_we_care_about:
-                    if 'data' in e['item']:
-                        data = base64.b64decode(e['item']['data']['#text'])
-                        try:
-                            if code == 'asal':
-                                decoded_data = data.decode('utf-8')
-                                self.album.text = decoded_data
-                            elif code == 'asar':
-                                decoded_data = data.decode('utf-8')
-                                self.artist.text = decoded_data
-                            elif code == 'minm':
-                                decoded_data = data.decode('utf-8')
-                                self.title.text = decoded_data
-                            elif code == 'PICT':
-                                with open('now_playing.jpg', 'wb') as f:
-                                    f.write(data)
-                                    album_art_changed = True
-                                    no_album_art = False
-                            else:
-                                album_art_changed = False
-                                no_album_art = True
-                        except UnicodeDecodeError as e:
-                            raise
-                        finally:
-                            pass
+                    try:
+                        if code == 'asal':
+                            decoded_data = data.decode('utf-8')
+                            self.album.text = decoded_data
+                        elif code == 'asar':
+                            decoded_data = data.decode('utf-8')
+                            self.artist.text = decoded_data
+                        elif code == 'minm':
+                            decoded_data = data.decode('utf-8')
+                            self.title.text = decoded_data
+                        elif code == 'PICT':
+                            with open('now_playing.jpg', 'wb') as f:
+                                f.write(data)
+                                album_art_changed = True
+                                no_album_art = False
+                        else:
+                            album_art_changed = False
+                            no_album_art = True
+                    except UnicodeDecodeError as e:
+                        raise
+                    finally:
+                        pass
 
 
 class NowPlayingBox(BoxLayout):

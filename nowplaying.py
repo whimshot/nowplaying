@@ -121,6 +121,7 @@ class NowPlaying(BoxLayout):
                                     album_art_changed = True
                                     no_album_art = False
                             else:
+                                album_art_changed = False
                                 no_album_art = True
                         except UnicodeDecodeError as e:
                             raise

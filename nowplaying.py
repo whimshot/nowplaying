@@ -25,7 +25,7 @@ from kivy.uix.slider import Slider
 
 album_art_changed = False
 no_album_art = True
-logger = Logger.getLogger(__name__)
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 # create file handler which logs even debug messages
 logger_fh = logging.handlers.RotatingFileHandler('nowplaying.log',

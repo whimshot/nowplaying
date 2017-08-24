@@ -124,7 +124,11 @@ class NowPlaying(BoxLayout):
                 code = self.ascii_integers_to_string(e['item']['code'])
                 if 'data' in e['item']:
                     data = base64.b64decode(e['item']['data']['#text'])
-                    logger.info('%s: %s', str(code), str(data.decode('utf-8')))
+                    try:
+                        logger.info('%s: %s', str(code),
+                                    str(data.decode('utf-8')))
+                    except UnicodeDecodeError:
+                        logger.info('%s: %s', str(code), str(data))
                 if code in codes_we_care_about:
                     try:
                         if code == 'asal':

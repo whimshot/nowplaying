@@ -29,7 +29,7 @@ logger = Logger.getChild(__name__)
 logger.setLevel(logging.DEBUG)
 # create file handler which logs even debug messages
 logger_fh = logging.handlers.RotatingFileHandler('nowplaying.log',
-                                                 maxBytes=65536,
+                                                 maxBytes=1048576,
                                                  backupCount=7)
 logger_fh.setLevel(logging.DEBUG)
 # create console handler with a higher log level

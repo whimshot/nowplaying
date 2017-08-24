@@ -134,29 +134,29 @@ class NowPlaying(BoxLayout):
                                      str(code), str(decoded_data))
                     except UnicodeError:
                         logger.debug('decode failed')
-                if code in codes_we_care_about:
-                    try:
-                        if code == 'asal':
-                            decoded_data = data.decode('utf-8')
-                            self.album.text = decoded_data
-                        elif code == 'asar':
-                            decoded_data = data.decode('utf-8')
-                            self.artist.text = decoded_data
-                        elif code == 'minm':
-                            decoded_data = data.decode('utf-8')
-                            self.title.text = decoded_data
-                        elif code == 'PICT':
-                            with open('now_playing.jpg', 'wb') as f:
-                                f.write(data)
-                                album_art_changed = True
-                                no_album_art = False
-                        else:
-                            album_art_changed = False
-                            no_album_art = True
-                    except UnicodeDecodeError as e:
-                        raise
-                    finally:
-                        pass
+                    if code in codes_we_care_about:
+                        try:
+                            if code == 'asal':
+                                decoded_data = data.decode('utf-8')
+                                self.album.text = decoded_data
+                            elif code == 'asar':
+                                decoded_data = data.decode('utf-8')
+                                self.artist.text = decoded_data
+                            elif code == 'minm':
+                                decoded_data = data.decode('utf-8')
+                                self.title.text = decoded_data
+                            elif code == 'PICT':
+                                with open('now_playing.jpg', 'wb') as f:
+                                    f.write(data)
+                                    album_art_changed = True
+                                    no_album_art = False
+                            else:
+                                album_art_changed = False
+                                no_album_art = True
+                        except UnicodeDecodeError as e:
+                            raise
+                        finally:
+                            pass
 
 
 class NowPlayingBox(BoxLayout):

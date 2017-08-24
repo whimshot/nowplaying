@@ -124,7 +124,7 @@ class NowPlaying(BoxLayout):
                 code = self.ascii_integers_to_string(e['item']['code'])
                 item_type = self.ascii_integers_to_string(e['item']['type'])
                 if ('data' in e['item']) and code != 'PICT':
-                    logger.debug(line)
+                    logger.debug(line.strip())
                     data = base64.b64decode(e['item']['data']['#text'])
                     logger.debug('(%s) %s: %s', str(item_type),
                                  str(code), str(data))

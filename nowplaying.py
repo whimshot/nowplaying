@@ -122,7 +122,7 @@ class NowPlaying(BoxLayout):
                 root = ET.fromstring(line)
                 e = self.etree_to_dict(root)
                 code = self.ascii_integers_to_string(e['item']['code'])
-                if 'data' in e['item']:
+                if ('data' in e['item']) and code != 'PICT':
                     data = base64.b64decode(e['item']['data']['#text'])
                     logger.debug('%s: %s', str(code), str(data))
                     try:

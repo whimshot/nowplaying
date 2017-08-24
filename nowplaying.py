@@ -176,6 +176,7 @@ class NowPlaying(BoxLayout):
                 print(root.attrib)
                 for i in root.iter():
                     print(i.attrib)
+                    print(i.text)
 
                 # e = self.etree_to_dict(root)
                 # code = self.ascii_integers_to_string(e['item']['code'])

@@ -174,6 +174,7 @@ class NowPlaying(BoxLayout):
                 root = ET.fromstring(line)
                 print(root)
                 print(root.attrib)
+                print(root.tag)
                 for i in root.iter():
                     print(i.attrib)
                     print(i.text)

@@ -124,11 +124,7 @@ class NowPlaying(BoxLayout):
                 code = self.ascii_integers_to_string(e['item']['code'])
                 if 'data' in e['item']:
                     data = base64.b64decode(e['item']['data']['#text'])
-                    try:
-                        logger.info('%s: %s', str(code),
-                                    str(data.decode('utf-8')))
-                    except UnicodeDecodeError:
-                        logger.info('%s: %s', str(code), str(data))
+                    logger.info('%s: %s', str(code), str(data))
                 if code in codes_we_care_about:
                     try:
                         if code == 'asal':
@@ -159,6 +155,7 @@ class NowPlayingBox(BoxLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        logger.info('Starting up.')
         self.nowplaying = NowPlaying()
         self.albumart = Image(source='no_album_art.png',
                               allow_stretch=True)

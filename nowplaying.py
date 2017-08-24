@@ -172,7 +172,10 @@ class NowPlaying(BoxLayout):
                 temp_line = ""
                 print(line)
                 root = ET.fromstring(line)
+                print(root)
                 print(root.attrib)
+                for i in root.iter():
+                    print(i.attrib)
 
                 # e = self.etree_to_dict(root)
                 # code = self.ascii_integers_to_string(e['item']['code'])

@@ -119,12 +119,12 @@ class NowPlaying(BoxLayout):
                     continue
                 line = temp_line + line
                 temp_line = ""
-                logger.debug(line)
                 root = ET.fromstring(line)
                 e = self.etree_to_dict(root)
                 code = self.ascii_integers_to_string(e['item']['code'])
                 item_type = self.ascii_integers_to_string(e['item']['type'])
                 if ('data' in e['item']) and code != 'PICT':
+                    logger.debug(line)
                     data = base64.b64decode(e['item']['data']['#text'])
                     logger.debug('(%s) %s: %s', str(item_type),
                                  str(code), str(data))

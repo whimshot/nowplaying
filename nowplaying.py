@@ -122,12 +122,15 @@ class NowPlaying(BoxLayout):
                 root = ET.fromstring(line)
                 e = self.etree_to_dict(root)
                 code = self.ascii_integers_to_string(e['item']['code'])
+                item_type = self.ascii_integers_to_string(e['item']['type'])
                 if ('data' in e['item']) and code != 'PICT':
                     data = base64.b64decode(e['item']['data']['#text'])
-                    logger.debug('%s: %s', str(code), str(data))
+                    logger.debug('(%s) %s: %s', str(item_type),
+                                 str(code), str(data))
                     try:
                         decoded_data = data.decode('utf-8')
-                        logger.debug('%s: %s', str(code), str(decoded_data))
+                        logger.debug('(%s) %s: %s', str(item_type),
+                                     str(code), str(decoded_data))
                     except UnicodeError:
                         logger.debug('decode failed')
                 if code in codes_we_care_about:

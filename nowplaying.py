@@ -181,6 +181,8 @@ class NowPlaying(BoxLayout):
                 if meta_data['code'] in ['asal', 'asar', 'minm']:
                     meta_data['data'] = meta_data['data'].decode('utf-8')
 
+                print(meta_data)
+                
                 if meta_data['code'] == 'asal':
                     self.album.text = meta_data['data']
                 elif meta_data['code'] == 'asar':

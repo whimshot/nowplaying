@@ -180,6 +180,17 @@ class NowPlaying(BoxLayout):
                 if meta_data['code'] in ['asal', 'asar', 'minm']:
                     meta_data['data'] = meta_data['data'].decode('utf-8')
                 print(meta_data)
+                if meta_data['code'] == 'asal':
+                    self.album.text = meta_data['data']
+                elif meta_data['code'] == 'asar':
+                    self.artist.text = meta_data['data']
+                elif meta_data['code'] == 'minm':
+                    self.title.text = meta_data['data']
+                elif meta_data['code'] == 'PICT':
+                    with open('now_playing.jpg', 'wb') as f:
+                        f.write(data)
+                        album_art_changed = True
+                        no_album_art = False
 
                 # e = self.etree_to_dict(root)
                 # code = self.ascii_integers_to_string(e['item']['code'])

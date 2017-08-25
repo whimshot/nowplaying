@@ -173,7 +173,7 @@ class NowPlaying(BoxLayout):
                 try:
                     logger.debug(line)
                     root = ET.fromstring(line)
-                except xml.etree.ElementTree.ParseError:
+                except ET.ParseError:
                     logger.exception(line)
                 meta_data = {}
                 for i in root.iter():

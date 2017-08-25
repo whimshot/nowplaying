@@ -266,7 +266,7 @@ class NowPlayingApp(App):
         album_art_changed = False
         npb = NowPlayingBox()
         npb.nowplaying.start_update()
-        Clock.schedule_interval(npb.update, 2)
+        Clock.schedule_interval(npb.update, 1)
         return npb
 
 

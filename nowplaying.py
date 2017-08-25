@@ -176,10 +176,9 @@ class NowPlaying(BoxLayout):
                     if i.tag in ['type', 'code']:
                         meta_data[i.tag] = self.ascii_integers_to_string(i.text)
                     elif i.tag == 'data':
-                        if i.tag in ['asal', 'asar', 'minm']:
-                            meta_data[i.tag] = base64.b64decode(i.text).decode('utf-8')
-                        else:
-                            meta_data[i.tag] = base64.b64decode(i.text)
+                        meta_data[i.tag] = base64.b64decode(i.text)
+                if meta_data['code'] in ['asal', 'asar', 'minm']:
+                    meta_data['data'] = meta_data['data'].decode('utf-8')
                 print(meta_data)
 
                 # e = self.etree_to_dict(root)

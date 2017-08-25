@@ -170,6 +170,7 @@ class NowPlaying(BoxLayout):
                     continue
                 line = temp_line + line
                 temp_line = ""
+                logger.debug(line)
                 root = ET.fromstring(line)
                 meta_data = {}
                 for i in root.iter():

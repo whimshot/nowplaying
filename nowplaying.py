@@ -188,7 +188,7 @@ class NowPlaying(BoxLayout):
                     self.title.text = meta_data['data']
                 elif meta_data['code'] == 'PICT':
                     with open('now_playing.jpg', 'wb') as f:
-                        f.write(data)
+                        f.write(meta_data['data'])
                         album_art_changed = True
                         no_album_art = False
 

@@ -170,8 +170,11 @@ class NowPlaying(BoxLayout):
                     continue
                 line = temp_line + line
                 temp_line = ""
-                logger.debug(line)
-                root = ET.fromstring(line)
+                try:
+                    logger.debug(line)
+                    root = ET.fromstring(line)
+                except xml.etree.ElementTree.ParseError:
+                    logger.exception(line)
                 meta_data = {}
                 for i in root.iter():
                     if i.tag in ['type', 'code']:

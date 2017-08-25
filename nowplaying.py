@@ -175,31 +175,31 @@ class NowPlaying(BoxLayout):
                     root = ET.fromstring(line)
                 except ET.ParseError:
                     logger.exception(line)
-                meta_data = {}
-                for i in root.iter():
-                    if i.tag in ['type', 'code']:
-                        meta_data[i.tag] = self.ascii_integers_to_string(i.text)
-                    elif i.tag == 'data':
-                        meta_data[i.tag] = base64.b64decode(i.text)
+                else:
+                    meta_data = {}
+                    for i in root.iter():
+                        if i.tag in ['type', 'code']:
+                            meta_data[i.tag] = self.ascii_integers_to_string(i.text)
+                        elif i.tag == 'data':
+                            meta_data[i.tag] = base64.b64decode(i.text)
 
-                if meta_data['code'] in ['asal', 'asar', 'minm']:
-                    meta_data['data'] = meta_data['data'].decode('utf-8')
+                    if meta_data['code'] in ['asal', 'asar', 'minm']:
+                        meta_data['data'] = meta_data['data'].decode('utf-8')
 
-                # print(meta_data)
-
-                if meta_data['code'] == 'asal':
-                    self.album.text = meta_data['data']
-                elif meta_data['code'] == 'asar':
-                    self.artist.text = meta_data['data']
-                elif meta_data['code'] == 'minm':
-                    self.title.text = meta_data['data']
-                elif (meta_data['code'] == 'PICT') and 'data' in meta_data:
                     # print(meta_data)
-                    with open('now_playing.jpg', 'wb') as f:
-                        f.write(meta_data['data'])
-                        album_art_changed = True
-                        no_album_art = False
-                        time.sleep(1)
+
+                    if meta_data['code'] == 'asal':
+                        self.album.text = meta_data['data']
+                    elif meta_data['code'] == 'asar':
+                        self.artist.text = meta_data['data']
+                    elif meta_data['code'] == 'minm':
+                        self.title.text = meta_data['data']
+                    elif (meta_data['code'] == 'PICT') and 'data' in meta_data:
+                        # print(meta_data)
+                        with open('now_playing.jpg', 'wb') as f:
+                            f.write(meta_data['data'])
+                            album_art_changed = True
+                            no_album_art = False
 
 
 class NowPlayingBox(BoxLayout):

@@ -195,6 +195,7 @@ class NowPlaying(BoxLayout):
                         f.write(meta_data['data'])
                         album_art_changed = True
                         no_album_art = False
+                        time.sleep(1)
 
                 # e = self.etree_to_dict(root)
                 # code = self.ascii_integers_to_string(e['item']['code'])

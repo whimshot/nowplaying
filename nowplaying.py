@@ -119,7 +119,7 @@ class NowPlayingBox(BoxLayout):
         super().__init__(**kwargs)
         logger.info('Starting up.')
         self.nowplaying = NowPlaying()
-        self.albumart = Image(source='no_album_art.png',
+        self.albumart = Image(source='now_playing.jpg',
                               allow_stretch=True)
         self.add_widget(self.nowplaying)
         self.add_widget(self.albumart)
@@ -142,7 +142,7 @@ class NowPlayingApp(App):
         album_art_changed = False
         npb = NowPlayingBox()
         npb.nowplaying.start_update()
-        Clock.schedule_interval(npb.update, 1)
+        Clock.schedule_interval(npb.update, 2)
         return npb
 
 

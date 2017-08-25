@@ -1,14 +1,11 @@
 """Now Playing app in kivy."""
 import base64
-import io
 import logging
 import logging.handlers
-import os
 import shutil
 import threading
 import time
 import xml.etree.ElementTree as ET
-from collections import defaultdict
 
 from kivy.app import App
 from kivy.clock import Clock
@@ -18,7 +15,7 @@ from kivy.uix.label import Label
 
 album_art_changed = False
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 # create file handler which logs even debug messages
 logger_fh = logging.handlers.RotatingFileHandler('nowplaying.log',
                                                  maxBytes=1048576,
@@ -135,6 +132,9 @@ class NowPlayingApp(App):
     """docstring for NowPlayingApp."""
 
     def on_start(self):
+        shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
+
+    def on_stop(self):
         shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
 
     def build(self):

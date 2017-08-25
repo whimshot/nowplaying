@@ -106,6 +106,7 @@ class NowPlaying(BoxLayout):
                         shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
                         with open('now_playing.jpg', 'wb') as f:
                             f.write(meta_data['data'])
+                            album_art_changed = True
 
                     logger.info('New track playing: %s %s %s', self.title.text,
                                 self.artist.text, self.album.text)

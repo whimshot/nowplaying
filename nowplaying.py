@@ -107,57 +107,6 @@ class NowPlaying(BoxLayout):
     def start_update(self):
         threading.Thread(target=self.update).start()
 
-    # def update(self):
-    #     global album_art_changed
-    #     global no_album_art
-    #     codes_we_care_about = ['asal', 'asar', 'minm', 'PICT']
-    #     temp_line = ""
-    #     with open('/tmp/shairport-sync-metadata') as f:
-    #         for line in f:
-    #             if not line.strip().endswith("</item>"):
-    #                 temp_line += line.strip()
-    #                 continue
-    #             line = temp_line + line
-    #             temp_line = ""
-    #             root = ET.fromstring(line)
-    #             e = self.etree_to_dict(root)
-    #             code = self.ascii_integers_to_string(e['item']['code'])
-    #             item_type = self.ascii_integers_to_string(e['item']['type'])
-    #             if ('data' in e['item']) and code != 'PICT':
-    #                 logger.debug(line.strip())
-    #                 data = base64.b64decode(e['item']['data']['#text'])
-    #                 logger.debug('(%s) %s: %s', str(item_type),
-    #                              str(code), str(data))
-    #                 try:
-    #                     decoded_data = data.decode('utf-8')
-    #                     logger.debug('(%s) %s: %s', str(item_type),
-    #                                  str(code), str(decoded_data))
-    #                 except UnicodeError:
-    #                     logger.debug('decode failed')
-    #                 if code in codes_we_care_about:
-    #                     try:
-    #                         if code == 'asal':
-    #                             decoded_data = data.decode('utf-8')
-    #                             self.album.text = decoded_data
-    #                         elif code == 'asar':
-    #                             decoded_data = data.decode('utf-8')
-    #                             self.artist.text = decoded_data
-    #                         elif code == 'minm':
-    #                             decoded_data = data.decode('utf-8')
-    #                             self.title.text = decoded_data
-    #                         elif code == 'PICT':
-    #                             with open('now_playing.jpg', 'wb') as f:
-    #                                 f.write(data)
-    #                                 album_art_changed = True
-    #                                 no_album_art = False
-    #                         else:
-    #                             album_art_changed = False
-    #                             no_album_art = True
-    #                     except UnicodeDecodeError as e:
-    #                         raise
-    #                     finally:
-    #                         pass
-
     def update(self):
         global album_art_changed
         global no_album_art
@@ -170,6 +119,7 @@ class NowPlaying(BoxLayout):
                     continue
                 line = temp_line + line
                 temp_line = ""
+                self.logger.debug('New item: %s', line)
                 try:
                     logger.debug(line)
                     root = ET.fromstring(line)
@@ -179,14 +129,13 @@ class NowPlaying(BoxLayout):
                     meta_data = {}
                     for i in root.iter():
                         if i.tag in ['type', 'code']:
-                            meta_data[i.tag] = self.ascii_integers_to_string(i.text)
+                            meta_data[i.tag] = self.ascii_integers_to_string(
+                                i.text)
                         elif i.tag == 'data':
                             meta_data[i.tag] = base64.b64decode(i.text)
 
                     if meta_data['code'] in ['asal', 'asar', 'minm']:
                         meta_data['data'] = meta_data['data'].decode('utf-8')
-
-                    # print(meta_data)
 
                     if meta_data['code'] == 'asal':
                         self.album.text = meta_data['data']
@@ -195,11 +144,13 @@ class NowPlaying(BoxLayout):
                     elif meta_data['code'] == 'minm':
                         self.title.text = meta_data['data']
                     elif (meta_data['code'] == 'PICT') and 'data' in meta_data:
-                        # print(meta_data)
                         with open('now_playing.jpg', 'wb') as f:
                             f.write(meta_data['data'])
                             album_art_changed = True
                             no_album_art = False
+
+                    logger.info('New track playing: %s %s %s', self.title.text,
+                                self.artist.text, self.album.text)
 
 
 class NowPlayingBox(BoxLayout):

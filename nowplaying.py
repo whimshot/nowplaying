@@ -170,17 +170,14 @@ class NowPlaying(BoxLayout):
                     continue
                 line = temp_line + line
                 temp_line = ""
-                print(line)
                 root = ET.fromstring(line)
-                print(root)
-                print(root.attrib)
-                print(root.tag)
-                thing = {}
+                meta_data = {}
                 for i in root.iter():
-                    thing[i.tag] = i.text
-                    print(i.attrib)
-                    print(i.text)
-                print(thing)
+                    if i.tag in ['type', 'code']:
+                        meta_data[i.tag] = self.ascii_integers_to_string(i.text)
+                    elif i.tag == 'data':
+                        meta_data[i.tag] = base64.b64decode(i.text)
+                print(meta_data)
 
                 # e = self.etree_to_dict(root)
                 # code = self.ascii_integers_to_string(e['item']['code'])

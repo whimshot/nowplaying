@@ -15,7 +15,7 @@ from kivy.uix.label import Label
 
 album_art_changed = False
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 # create file handler which logs even debug messages
 logger_fh = logging.handlers.RotatingFileHandler('nowplaying.log',
                                                  maxBytes=1048576,
@@ -48,12 +48,9 @@ class NowPlaying(BoxLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.album = NowPlayingLabel(text='Album', color=[1, 0, 0, ])
-        self.title = NowPlayingLabel(text='Title',  color=[0, 1, 0, ])
-        self.artist = NowPlayingLabel(text='Artist', color=[0, 0, 1, ])
-        self.add_widget(self.title)
-        self.add_widget(self.artist)
-        self.add_widget(self.album)
+        self.ids.title.text = 'Title'
+        self.ids.artist.text = 'Artist'
+        self.ids.album.text = 'Album'
 
     def ascii_integers_to_string(self, string, base=16, digits_per_char=2):
         return "".join([chr(int(string[i:i + digits_per_char],
@@ -93,11 +90,11 @@ class NowPlaying(BoxLayout):
                         meta_data['data'] = meta_data['data'].decode('utf-8')
 
                     if meta_data['code'] == 'asal':
-                        self.album.text = meta_data['data']
+                        self.ids.album.text = meta_data['data']
                     elif meta_data['code'] == 'asar':
-                        self.artist.text = meta_data['data']
+                        self.ids.artist.text = meta_data['data']
                     elif meta_data['code'] == 'minm':
-                        self.title.text = meta_data['data']
+                        self.ids.title.text = meta_data['data']
                     elif (meta_data['code'] == 'PICT') and 'data' in meta_data:
                         album_art_changed = True
                         shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
@@ -105,8 +102,8 @@ class NowPlaying(BoxLayout):
                             f.write(meta_data['data'])
                             album_art_changed = True
 
-                    logger.info('New track playing: %s %s %s', self.title.text,
-                                self.artist.text, self.album.text)
+                    logger.info('New track playing: %s %s %s', self.ids.title.text,
+                                self.ids.artist.text, self.ids.album.text)
 
 
 class NowPlayingBox(BoxLayout):

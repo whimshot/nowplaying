@@ -6,12 +6,25 @@
     halign: 'center'
     markup: True
     bold: True
-    font_size: '24sp'
+    font_size: '28sp'
 
 
 <NowPlaying>:
     orientation: 'vertical'
     padding: [16]
+    NowPlayingLabel:
+        id: title
+        color: [1, 0, 0, 1]
+        size_hint: (1, .5)
+    NowPlayingLabel:
+        id: artist
+        color: [0, 1, 0, 1]
+        size_hint: (1, .5)
+    NowPlayingLabel
+        id: album
+        color: [0, 0.5, 1, 1]
+        size_hint: (1, .5)
+    BoxLayout:
 
 
 <NowPlayingBox>:

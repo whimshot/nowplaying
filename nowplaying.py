@@ -1,7 +1,9 @@
 """Now Playing app in kivy."""
+import atexit
 import base64
 import logging
 import logging.handlers
+import os
 import shutil
 import threading
 import time
@@ -23,7 +25,7 @@ logger_fh = logging.handlers.RotatingFileHandler('nowplaying.log',
 logger_fh.setLevel(logging.DEBUG)
 # create console handler with a higher log level
 logger_ch = logging.StreamHandler()
-logger_ch.setLevel(logging.ERROR)
+logger_ch.setLevel(logging.DEBUG)
 # create formatter and add it to the handlers
 logger_formatter = logging.Formatter('%(asctime)s'
                                      + ' %(levelname)s'
@@ -34,6 +36,22 @@ logger_ch.setFormatter(logger_formatter)
 # add the handlers to the logger
 logger.addHandler(logger_fh)
 logger.addHandler(logger_ch)
+logger.debug('Logger up and running.')
+
+
+pid = str(os.getpid())
+pidfile = "/tmp/healthstats.pid"
+with open(pidfile, 'w') as pf:
+    pf.write(pid)
+
+
+def cleanup():
+    """Cleanup the pid file."""
+    if os.path.isfile(pidfile):
+        os.unlink(pidfile)
+
+
+atexit.register(cleanup)    # Register with atexit
 
 
 class NowPlayingLabel(Label):
@@ -51,6 +69,7 @@ class NowPlaying(BoxLayout):
         self.ids.title.text = 'Title'
         self.ids.artist.text = 'Artist'
         self.ids.album.text = 'Album'
+        logger.debug('Information screen setup.')
 
     def ascii_integers_to_string(self, string, base=16, digits_per_char=2):
         return "".join([chr(int(string[i:i + digits_per_char],
@@ -102,8 +121,10 @@ class NowPlaying(BoxLayout):
                             f.write(meta_data['data'])
                             album_art_changed = True
 
-                    logger.info('New track playing: %s %s %s', self.ids.title.text,
-                                self.ids.artist.text, self.ids.album.text)
+                    logger.info('New track playing: %s %s %s',
+                                self.ids.title.text,
+                                self.ids.artist.text,
+                                self.ids.album.text)
 
 
 class NowPlayingBox(BoxLayout):

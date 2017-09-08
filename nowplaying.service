@@ -5,7 +5,6 @@ Description=Now Playing Display
 Type=idle
 WorkingDirectory=/home/pi/nowplaying
 ExecStart=/usr/bin/python3 /home/pi/nowplaying/nowplaying.py
-StandardOutput=null
 Restart=always
 
 [Install]

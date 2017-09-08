@@ -49,6 +49,7 @@ def cleanup():
     """Cleanup the pid file."""
     if os.path.isfile(pidfile):
         os.unlink(pidfile)
+        shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
 
 
 atexit.register(cleanup)    # Register with atexit
@@ -81,7 +82,7 @@ class NowPlaying(BoxLayout):
 
     def update(self):
         global album_art_changed
-        codes_we_care_about = ['asal', 'asar', 'minm', 'PICT']
+        # codes_we_care_about = ['asal', 'asar', 'minm', 'PICT']
         temp_line = ""
         with open('/tmp/shairport-sync-metadata') as f:
             for line in f:

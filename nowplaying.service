@@ -6,6 +6,7 @@ Type=idle
 WorkingDirectory=/home/pi/nowplaying
 ExecStart=/usr/bin/python3 /home/pi/nowplaying/nowplaying.py
 StandardOutput=null
+Restart=always
 
 [Install]
 WantedBy=multi-user.target

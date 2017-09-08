@@ -1,0 +1,11 @@
+[Unit]
+Description=Now Playing Display
+
+[Service]
+Type=idle
+WorkingDirectory=/home/pi/nowplaying
+ExecStart=/usr/bin/python3 /home/pi/nowplaying/nowplaying.py
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target

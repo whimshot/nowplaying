@@ -1,5 +1,7 @@
 [Unit]
 Description=Now Playing Display
+Requires=shairport-sync.service
+After=shairport-sync.service
 
 [Service]
 Type=idle

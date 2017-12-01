@@ -112,7 +112,8 @@ class NowPlaying(BoxLayout):
                     if meta_data['code'] == 'asal':
                         self.ids.album.text = meta_data['data']
                         albumcover = hashlib.md5(
-                            meta_data['data'].encode('utf-8')).hexdigest() + ".jpg"
+                            meta_data['data'].encode('utf-8')).hexdigest()
+                        albumcover += ".jpg"
                     elif meta_data['code'] == 'asar':
                         self.ids.artist.text = meta_data['data']
                     elif meta_data['code'] == 'minm':
@@ -120,15 +121,15 @@ class NowPlaying(BoxLayout):
                     elif (meta_data['code'] == 'PICT') and 'data' in meta_data:
                         album_art_changed = True
                         shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
-                        with open('now_playing.jpg', 'wb') as f:
-                            f.write(meta_data['data'])
-                        with open(albumcover, 'wb') as f:
-                            f.write(meta_data['data'])
+                        with open('now_playing.jpg', 'wb') as g:
+                            g.write(meta_data['data'])
+                        with open(albumcover, 'wb') as h:
+                            h.write(meta_data['data'])
 
-                    logger.info('New track playing: %s %s %s',
-                                self.ids.title.text,
-                                self.ids.artist.text,
-                                self.ids.album.text)
+                    logger.debug('New track playing: %s %s %s',
+                                 self.ids.title.text,
+                                 self.ids.artist.text,
+                                 self.ids.album.text)
 
 
 class NowPlayingBox(BoxLayout):

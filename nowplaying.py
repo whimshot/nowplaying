@@ -118,13 +118,18 @@ class NowPlaying(BoxLayout):
                         self.ids.artist.text = meta_data['data']
                     elif meta_data['code'] == 'minm':
                         self.ids.title.text = meta_data['data']
-                    elif (meta_data['code'] == 'PICT') and 'data' in meta_data:
-                        album_art_changed = True
-                        shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
-                        with open('now_playing.jpg', 'wb') as g:
-                            g.write(meta_data['data'])
-                        with open(albumcover, 'wb') as h:
-                            h.write(meta_data['data'])
+
+                    try:
+                        shutil.copy2(albumcover, 'now_playing.jpg')
+                    except Exception as e:
+                        if (meta_data['code'] ==
+                                'PICT') and 'data' in meta_data:
+                            album_art_changed = True
+                            shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
+                            with open('now_playing.jpg', 'wb') as g:
+                                g.write(meta_data['data'])
+                            with open(albumcover, 'wb') as h:
+                                h.write(meta_data['data'])
 
                     logger.debug('New track playing: %s %s %s',
                                  self.ids.title.text,

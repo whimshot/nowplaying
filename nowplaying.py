@@ -17,7 +17,7 @@ from kivy.uix.label import Label
 
 album_art_changed = False
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 # create file handler which logs even debug messages
 logger_fh = logging.handlers.RotatingFileHandler('nowplaying.log',
                                                  maxBytes=1048576,

@@ -17,7 +17,7 @@ from kivy.uix.label import Label
 
 album_art_changed = False
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 # create file handler which logs even debug messages
 logger_fh = logging.handlers.RotatingFileHandler('nowplaying.log',
                                                  maxBytes=1048576,
@@ -121,6 +121,7 @@ class NowPlaying(BoxLayout):
 
                     try:
                         shutil.copy2(albumcover, 'now_playing.jpg')
+                        logger.debug('Found local copy of album art')
                     except Exception as e:
                         if (meta_data['code'] ==
                                 'PICT') and 'data' in meta_data:
@@ -130,6 +131,7 @@ class NowPlaying(BoxLayout):
                                 g.write(meta_data['data'])
                             with open(albumcover, 'wb') as h:
                                 h.write(meta_data['data'])
+                                logger.debug('Writing new album cover.')
 
                     logger.debug('New track playing: %s %s %s',
                                  self.ids.title.text,

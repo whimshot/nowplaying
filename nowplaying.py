@@ -1,12 +1,12 @@
 """Now Playing app in kivy."""
 import atexit
 import base64
+import hashlib
 import logging
 import logging.handlers
 import os
 import shutil
 import threading
-import time
 import xml.etree.ElementTree as ET
 
 from kivy.app import App
@@ -111,8 +111,8 @@ class NowPlaying(BoxLayout):
 
                     if meta_data['code'] == 'asal':
                         self.ids.album.text = meta_data['data']
-                        albumname = meta_data['data']
-                        albumcover = albumname.replace(" ", "") + ".jpg"
+                        albumcover = hashlib.md5(
+                            meta_data['data'].encode('utf-8')).hexdigest() + ".jpg"
                     elif meta_data['code'] == 'asar':
                         self.ids.artist.text = meta_data['data']
                     elif meta_data['code'] == 'minm':

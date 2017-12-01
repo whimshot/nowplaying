@@ -91,9 +91,8 @@ class NowPlaying(BoxLayout):
                     continue
                 line = temp_line + line
                 temp_line = ""
-                logger.debug('New item: %s', line)
                 try:
-                    logger.debug(line)
+                    logger.debug('New item: %s', line)
                     root = ET.fromstring(line)
                 except ET.ParseError:
                     logger.exception(line)

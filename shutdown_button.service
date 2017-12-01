@@ -1,0 +1,11 @@
+[Unit]
+Description=RPi Shutdown Button
+
+[Service]
+Type=idle
+WorkingDirectory=/home/pi
+ExecStart=/usr/bin/python3 /home/pi/.shutdown_button.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

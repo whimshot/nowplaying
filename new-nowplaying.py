@@ -85,22 +85,22 @@ class NowPlaying(BoxLayout):
         data_line = ''  # full line of metadata
         with open('/tmp/shairport-sync-metadata') as ssmd:
             for read_line in ssmd:
-                if read_line.strip().endswith('</item>')
-                data_line += read_line.strip()
-            else:
-                data_line += read_line.strip()
-                continue
-            try:
-                md_root = ET.fromstring(data_line)
-            except ET.ParseError:
-                raise
-            else:
-                md_dict = {}
-                for i in md_root.iter():
-                    if i.tag in ['type', 'code']:
-                        md_dict[i.tag] = self.ascii_integers_to_string(i.text)
-                        print('found {0} with {1}'.format(i.tag,
-                                                          md_dict[i.tag]))
+                if read_line.strip().endswith('</item>'):
+                    data_line += read_line.strip()
+                else:
+                    data_line += read_line.strip()
+                    continue
+                try:
+                    md_root = ET.fromstring(data_line)
+                except ET.ParseError:
+                    raise
+                else:
+                    md_dict = {}
+                    for i in md_root.iter():
+                        if i.tag in ['type', 'code']:
+                            md_dict[i.tag] = self.ascii_integers_to_string(i.text)
+                            print('found {0} with {1}'.format(i.tag,
+                                                              md_dict[i.tag]))
 
 
 class NowPlayingBox(BoxLayout):

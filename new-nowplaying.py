@@ -93,7 +93,7 @@ class NowPlaying(BoxLayout):
                 try:
                     md_root = ET.fromstring(data_line)
                 except ET.ParseError:
-                    raise
+                    print('Got junk data: {0}'.format(data_line))
                 else:
                     md_dict = {}
                     for i in md_root.iter():

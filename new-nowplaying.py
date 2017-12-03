@@ -47,9 +47,9 @@ logger.debug('Logger up and running.')
 
 def cleanup():
     """Cleanup the pid file."""
-    if os.path.isfile(pidfile):
-        os.unlink(pidfile)
-        shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
+    # if os.path.isfile(pidfile):
+    #     os.unlink(pidfile)
+    shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
 
 
 atexit.register(cleanup)    # Register with atexit

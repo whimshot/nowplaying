@@ -98,7 +98,12 @@ class NowPlaying(BoxLayout):
                     md_dict = {}
                     for i in md_root.iter():
                         if i.tag in ['type', 'code']:
-                            md_dict[i.tag] = self.ascii_integers_to_string(i.text)
+                            md_dict[i.tag] = self.ascii_integers_to_string(
+                                i.text)
+                            print('found {0} with {1}'.format(i.tag,
+                                                              md_dict[i.tag]))
+                        elif i.tag == 'data':
+                            md_dict[i.tag] = base64.b64decode(i.text)
                             print('found {0} with {1}'.format(i.tag,
                                                               md_dict[i.tag]))
                 data_line = ''

@@ -113,15 +113,21 @@ class NowPlaying(BoxLayout):
                         if md_dict['code'] == 'asal':
                             self.ids.album.text = md_dict['data']
                             ca_filename = hashlib.md5(md_dict['data']) + '.jpg'
+                            print('Album: {0} should be in: {1}').format(
+                                md_dict['data'], ca_filename)
                         elif md_dict['code'] == 'asar':
                             self.ids.artist.text = md_dict['data']
+                            print('Artist: {0}').format(md_dict['data'])
                         elif md_dict['code'] == 'minm':
                             self.ids.title.text = md_dict['data']
+                            print('Title: {0}').format(md_dict['data'])
                     elif md_dict['code'] == 'PICT':
                         try:
                             shutil.copy2(ca_filename, 'now_playing.jpg')
                             album_art_changed = True
+                            print('Found album art.')
                         except Exception as e:
+                            print('New album art.')
                             with open(ca_filename, 'wb') as arf:
                                 arf.write(md_dict['data'])
                                 shutil.copy2(ca_filename, 'now_playing.jpg')

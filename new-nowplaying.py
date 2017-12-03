@@ -39,10 +39,10 @@ logger.addHandler(logger_ch)
 logger.debug('Logger up and running.')
 
 
-pid = str(os.getpid())
-pidfile = "/tmp/healthstats.pid"
-with open(pidfile, 'w') as pf:
-    pf.write(pid)
+# pid = str(os.getpid())
+# pidfile = "/tmp/healthstats.pid"
+# with open(pidfile, 'w') as pf:
+#     pf.write(pid)
 
 
 def cleanup():

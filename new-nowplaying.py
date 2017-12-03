@@ -112,7 +112,8 @@ class NowPlaying(BoxLayout):
                         if md_dict['code'] == 'asal':
                             self.ids.album.text = md_dict['data'].decode(
                                 'utf-8')
-                            ca_filename = hashlib.md5(md_dict['data']) + '.jpg'
+                            ca_filename = hashlib.md5(
+                                md_dict['data']).hexdigest() + '.jpg'
                             print('Album: {0} should be in: {1}').format(
                                 md_dict['data'], ca_filename)
                         elif md_dict['code'] == 'asar':

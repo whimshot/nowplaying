@@ -83,6 +83,7 @@ class NowPlaying(BoxLayout):
     def update(self):
         global album_art_changed
         data_line = ''  # full line of metadata
+        ca_filename = ''  # file name to store cover art locally
         with open('/tmp/shairport-sync-metadata') as ssmd:
             for read_line in ssmd:
                 if read_line.strip().endswith('</item>'):
@@ -107,7 +108,6 @@ class NowPlaying(BoxLayout):
                             print('found {0} with {1}'.format(i.tag,
                                                               md_dict[i.tag]))
 
-                    ca_filename = ''  # file name to store cover art locally
                     if md_dict['code'] in ['asal', 'asar', 'minm']:
                         if md_dict['code'] == 'asal':
                             self.ids.album.text = md_dict['data'].decode(
@@ -119,11 +119,11 @@ class NowPlaying(BoxLayout):
                         elif md_dict['code'] == 'asar':
                             self.ids.artist.text = md_dict['data'].decode(
                                 'utf-8')
-                            print('Artist: {0}'.format(md_dict['data']))
+                            print('Artist: {0}'.format(self.ids.artist.text))
                         elif md_dict['code'] == 'minm':
                             self.ids.title.text = md_dict['data'].decode(
                                 'utf-8')
-                            print('Title: {0}'.format(md_dict['data']))
+                            print('Title: {0}'.format(self.ids.title.text))
                     elif md_dict['code'] == 'PICT':
                         try:
                             shutil.copy2(ca_filename, 'now_playing.jpg')

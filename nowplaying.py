@@ -39,17 +39,17 @@ logger.addHandler(logger_ch)
 logger.debug('Logger up and running.')
 
 
-pid = str(os.getpid())
-pidfile = "/tmp/healthstats.pid"
-with open(pidfile, 'w') as pf:
-    pf.write(pid)
+# pid = str(os.getpid())
+# pidfile = "/tmp/healthstats.pid"
+# with open(pidfile, 'w') as pf:
+#     pf.write(pid)
 
 
 def cleanup():
     """Cleanup the pid file."""
-    if os.path.isfile(pidfile):
-        os.unlink(pidfile)
-        shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
+    # if os.path.isfile(pidfile):
+    #     os.unlink(pidfile)
+    shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
 
 
 atexit.register(cleanup)    # Register with atexit
@@ -82,61 +82,52 @@ class NowPlaying(BoxLayout):
 
     def update(self):
         global album_art_changed
-        # codes_we_care_about = ['asal', 'asar', 'minm', 'PICT']
-        temp_line = ""
-        with open('/tmp/shairport-sync-metadata') as f:
-            for line in f:
-                if not line.strip().endswith("</item>"):
-                    temp_line += line.strip()
-                    continue
-                line = temp_line + line
-                temp_line = ""
-                try:
-                    logger.debug('New item: %s', line)
-                    root = ET.fromstring(line)
-                except ET.ParseError:
-                    logger.exception(line)
+        data_line = ''  # full line of metadata
+        ca_filename = ''  # file name to store cover art locally
+        with open('/tmp/shairport-sync-metadata') as ssmd:
+            for read_line in ssmd:
+                if read_line.strip().endswith('</item>'):
+                    data_line += read_line.strip()
                 else:
-                    meta_data = {}
-                    for i in root.iter():
+                    data_line += read_line.strip()
+                    continue
+                try:
+                    md_root = ET.fromstring(data_line)
+                except ET.ParseError:
+                    print('Got junk data: {0}'.format(data_line))
+                else:
+                    md_dict = {}
+                    for i in md_root.iter():
                         if i.tag in ['type', 'code']:
-                            meta_data[i.tag] = self.ascii_integers_to_string(
+                            md_dict[i.tag] = self.ascii_integers_to_string(
                                 i.text)
                         elif i.tag == 'data':
-                            meta_data[i.tag] = base64.b64decode(i.text)
+                            md_dict[i.tag] = base64.b64decode(i.text)
 
-                    if meta_data['code'] in ['asal', 'asar', 'minm', 'PICT']:
-                        meta_data['data'] = meta_data['data'].decode('utf-8')
-
-                    if meta_data['code'] == 'asal':
-                        self.ids.album.text = meta_data['data']
-                        albumcover = hashlib.md5(
-                            meta_data['data'].encode('utf-8')).hexdigest()
-                        albumcover += ".jpg"
-                    elif meta_data['code'] == 'asar':
-                        self.ids.artist.text = meta_data['data']
-                    elif meta_data['code'] == 'minm':
-                        self.ids.title.text = meta_data['data']
-
-                    try:
-                        shutil.copy2(albumcover, 'now_playing.jpg')
-                        album_art_changed = True
-                        logger.debug('Found local copy of album art')
-                    except Exception as e:
-                        if (meta_data['code'] ==
-                                'PICT') and 'data' in meta_data:
+                    if md_dict['code'] in ['asal', 'asar', 'minm']:
+                        if md_dict['code'] == 'asal':
+                            self.ids.album.text = md_dict['data'].decode(
+                                'utf-8')
+                            ca_filename = hashlib.md5(
+                                md_dict['data']).hexdigest() + '.jpg'
+                        elif md_dict['code'] == 'asar':
+                            self.ids.artist.text = md_dict['data'].decode(
+                                'utf-8')
+                        elif md_dict['code'] == 'minm':
+                            self.ids.title.text = md_dict['data'].decode(
+                                'utf-8')
+                    elif md_dict['code'] == 'PICT':
+                        try:
+                            shutil.copy2(ca_filename, 'now_playing.jpg')
                             album_art_changed = True
-                            shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
-                            with open('now_playing.jpg', 'wb') as g:
-                                g.write(meta_data['data'])
-                            with open(albumcover, 'wb') as h:
-                                h.write(meta_data['data'])
-                                logger.debug('Writing new album cover.')
+                        except Exception as e:
+                            with open(ca_filename, 'wb') as arf:
+                                arf.write(md_dict['data'])
+                                shutil.copy2(ca_filename, 'now_playing.jpg')
+                                album_art_changed = True
+                                print('Wrote {0}'.format(ca_filename))
 
-                    logger.debug('New track playing: %s %s %s',
-                                 self.ids.title.text,
-                                 self.ids.artist.text,
-                                 self.ids.album.text)
+                data_line = ''
 
 
 class NowPlayingBox(BoxLayout):

@@ -101,12 +101,12 @@ class NowPlaying(BoxLayout):
                         if i.tag in ['type', 'code']:
                             md_dict[i.tag] = self.ascii_integers_to_string(
                                 i.text)
-                            # print('found {0} with {1}'.format(i.tag,
-                            #                                   md_dict[i.tag]))
+                            print('found {0} with {1}'.format(i.tag,
+                                                              md_dict[i.tag]))
                         elif i.tag == 'data':
                             md_dict[i.tag] = base64.b64decode(i.text)
-                            # print('found {0} with {1}'.format(i.tag,
-                            #                                   md_dict[i.tag]))
+                            print('found {0} with {1}'.format(i.tag,
+                                                              md_dict[i.tag]))
 
                     if md_dict['code'] in ['asal', 'asar', 'minm']:
                         if md_dict['code'] == 'asal':

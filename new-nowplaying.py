@@ -101,6 +101,7 @@ class NowPlaying(BoxLayout):
                             md_dict[i.tag] = self.ascii_integers_to_string(i.text)
                             print('found {0} with {1}'.format(i.tag,
                                                               md_dict[i.tag]))
+                data_line = ''
 
 
 class NowPlayingBox(BoxLayout):

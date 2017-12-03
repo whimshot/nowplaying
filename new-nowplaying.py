@@ -119,11 +119,11 @@ class NowPlaying(BoxLayout):
                         elif md_dict['code'] == 'asar':
                             self.ids.artist.text = md_dict['data'].decode(
                                 'utf-8')
-                            print('Artist: {0}').format(md_dict['data'])
+                            print('Artist: {0}'.format(md_dict['data']))
                         elif md_dict['code'] == 'minm':
                             self.ids.title.text = md_dict['data'].decode(
                                 'utf-8')
-                            print('Title: {0}').format(md_dict['data'])
+                            print('Title: {0}'.format(md_dict['data']))
                     elif md_dict['code'] == 'PICT':
                         try:
                             shutil.copy2(ca_filename, 'now_playing.jpg')

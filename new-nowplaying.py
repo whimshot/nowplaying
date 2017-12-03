@@ -109,32 +109,34 @@ class NowPlaying(BoxLayout):
 
                     ca_filename = ''  # file name to store cover art locally
                     if md_dict['code'] in ['asal', 'asar', 'minm']:
-                        md_dict['data'] = md_dict['data'].decode('utf-8')
                         if md_dict['code'] == 'asal':
-                            self.ids.album.text = md_dict['data']
-                            ca_filename = hashlib.md5(md_dict['data']).encode('utf-8')).hexdigest() + '.jpg'
+                            self.ids.album.text = md_dict['data'].decode(
+                                'utf-8')
+                            ca_filename = hashlib.md5(md_dict['data']) + '.jpg'
                             print('Album: {0} should be in: {1}').format(
                                 md_dict['data'], ca_filename)
                         elif md_dict['code'] == 'asar':
-                            self.ids.artist.text=md_dict['data']
+                            self.ids.artist.text = md_dict['data'].decode(
+                                'utf-8')
                             print('Artist: {0}').format(md_dict['data'])
                         elif md_dict['code'] == 'minm':
-                            self.ids.title.text=md_dict['data']
+                            self.ids.title.text = md_dict['data'].decode(
+                                'utf-8')
                             print('Title: {0}').format(md_dict['data'])
                     elif md_dict['code'] == 'PICT':
                         try:
                             shutil.copy2(ca_filename, 'now_playing.jpg')
-                            album_art_changed=True
+                            album_art_changed = True
                             print('Found album art.')
                         except Exception as e:
                             print('New album art.')
                             with open(ca_filename, 'wb') as arf:
                                 arf.write(md_dict['data'])
                                 shutil.copy2(ca_filename, 'now_playing.jpg')
-                                album_art_changed=True
+                                album_art_changed = True
                                 print('Wrote {0}'.format(ca_filename))
 
-                data_line=''
+                data_line = ''
 
 
 class NowPlayingBox(BoxLayout):
@@ -143,8 +145,8 @@ class NowPlayingBox(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         logger.info('Starting up.')
-        self.nowplaying=NowPlaying()
-        self.albumart=Image(source = 'now_playing.jpg',
+        self.nowplaying = NowPlaying()
+        self.albumart = Image(source='now_playing.jpg',
                               allow_stretch=True)
         self.add_widget(self.nowplaying)
         self.add_widget(self.albumart)

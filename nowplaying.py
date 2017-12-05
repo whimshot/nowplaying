@@ -67,9 +67,9 @@ class NowPlaying(BoxLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.ids.title.text = 'Title'
-        self.ids.artist.text = 'Artist'
-        self.ids.album.text = 'Album'
+        self.ids.title.text = ''
+        self.ids.artist.text = ''
+        self.ids.album.text = ''
         logger.debug('Information screen setup.')
 
     def ascii_integers_to_string(self, string, base=16, digits_per_char=2):
@@ -153,10 +153,10 @@ class NowPlayingApp(App):
     """docstring for NowPlayingApp."""
 
     def on_start(self):
-        shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
+        shutil.copy2('black_square.jpg', 'now_playing.jpg')
 
     def on_stop(self):
-        shutil.copy2('no_album_art.jpg', 'now_playing.jpg')
+        shutil.copy2('black_square.jpg', 'now_playing.jpg')
 
     def build(self):
         global album_art_changed
@@ -168,4 +168,5 @@ class NowPlayingApp(App):
 
 
 if __name__ == '__main__':
+    shutil.copy2('black_square.jpg', 'now_playing.jpg')
     NowPlayingApp().run()
